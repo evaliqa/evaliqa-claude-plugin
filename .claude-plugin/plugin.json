@@ -1,0 +1,13 @@
+{
+  "name": "evaliqa",
+  "description": "Send Claude Code sessions to EvaliQA for evaluation. Ships the session transcript so a trace carries the agent's own answer and what Agent, AskUserQuestion and MCP calls returned, which OpenTelemetry spans never do.",
+  "version": "0.1.0",
+  "author": {
+    "name": "EvaliQA",
+    "url": "https://evaliqa.ai"
+  },
+  "homepage": "https://evaliqa.ai",
+  "repository": "https://github.com/evaliqa/evaliqa-claude-plugin",
+  "license": "Apache-2.0",
+  "keywords": ["evaluation", "observability", "tracing", "opentelemetry", "testing", "qa"]
+}

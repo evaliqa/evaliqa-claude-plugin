@@ -1,0 +1,15 @@
+{
+  "name": "evaliqa",
+  "owner": {
+    "name": "EvaliQA",
+    "url": "https://evaliqa.ai"
+  },
+  "description": "The EvaliQA plugin for Claude Code.",
+  "plugins": [
+    {
+      "name": "evaliqa",
+      "source": "./",
+      "description": "Send Claude Code sessions to EvaliQA for evaluation."
+    }
+  ]
+}
