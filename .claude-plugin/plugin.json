@@ -1,7 +1,8 @@
 {
   "name": "evaliqa",
   "description": "Send Claude Code sessions to EvaliQA for evaluation. Ships the session transcript so a trace carries the agent's own answer and what Agent, AskUserQuestion and MCP calls returned, which OpenTelemetry spans never do.",
-  "version": "0.1.0",
+  "version": "0.2.0",
+  "icon": "./icon.png",
   "author": {
     "name": "EvaliQA",
     "url": "https://evaliqa.ai"
@@ -9,5 +10,20 @@
   "homepage": "https://evaliqa.ai",
   "repository": "https://github.com/evaliqa/evaliqa-claude-plugin",
   "license": "Apache-2.0",
-  "keywords": ["evaluation", "observability", "tracing", "opentelemetry", "testing", "qa"]
+  "keywords": ["evaluation", "observability", "tracing", "opentelemetry", "testing", "qa"],
+  "userConfig": {
+    "evaliqa_url": {
+      "type": "string",
+      "title": "EvaliQA URL",
+      "description": "Base URL of your EvaliQA host, e.g. https://your-evaliqa-host. Leave empty to disable sending.",
+      "required": false
+    },
+    "evaliqa_api_key": {
+      "type": "string",
+      "title": "EvaliQA API key",
+      "description": "Project API key (evx_…) from your EvaliQA project's Tracing tab. Stored in secure credential storage, never in settings.json. Leave empty to disable sending.",
+      "required": false,
+      "sensitive": true
+    }
+  }
 }

@@ -10,11 +10,13 @@ halves join on ids both sides already have (``session_id``,
 ``tool_use_id``, ``agent_id``), so there is nothing to correlate by hand.
 
 Installed with the plugin, so nothing is copied into a repository. The
-operator supplies only their own credentials, in the repository's
-``.claude/settings.local.json``, which git ignores:
+operator supplies their own credentials through the plugin's config
+dialog (``/plugin configure evaliqa``). Claude Code keeps the API key in
+the platform's secure credential storage and passes both values to this
+hook as environment variables:
 
-    "env": {"EVALIQA_API_KEY": "evx_...",
-            "EVALIQA_URL": "https://dev.evaliqa.ai"}
+    CLAUDE_PLUGIN_OPTION_EVALIQA_API_KEY   (evx_...)
+    CLAUDE_PLUGIN_OPTION_EVALIQA_URL       (https://your-evaliqa-host)
 
 Without both, the hook does nothing and says nothing: the same repository
 is worked in by people who have not connected it to EvaliQA.
@@ -87,8 +89,8 @@ def ship(payload: dict, base_url: str, api_key: str) -> str:
 
 
 def main() -> int:
-    api_key = os.environ.get("EVALIQA_API_KEY", "").strip()
-    base_url = os.environ.get("EVALIQA_URL", "").strip()
+    api_key = os.environ.get("CLAUDE_PLUGIN_OPTION_EVALIQA_API_KEY", "").strip()
+    base_url = os.environ.get("CLAUDE_PLUGIN_OPTION_EVALIQA_URL", "").strip()
     if not api_key or not base_url:
         # Not configured is not an error: the same repository is worked in
         # by people who have not connected it to EvaliQA.

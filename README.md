@@ -16,7 +16,7 @@ there is nothing to correlate by hand.
 - On the `Stop` and `SessionEnd` hooks, the plugin runs a small stdlib-only
   Python script that reads the session transcript (and any subagent transcripts)
   and `POST`s them to `EVALIQA_URL/api/traces/claude-code/session`.
-- Nothing is sent unless you have set both environment variables below. On a
+- Nothing is sent unless you have supplied both config values below. On a
   machine that has not configured them, the hook does nothing and exits quietly.
 - The script never fails your turn: any error is written to stderr and the exit
   code stays `0`.
@@ -27,24 +27,23 @@ Requires Claude Code and an EvaliQA workspace with a project API key
 (`evx_…`), created on your project's Tracing tab.
 
 ```
-/plugin marketplace add evaliqa/evaliqa-claude-plugin
-/plugin install evaliqa
+/plugin install evaliqa --marketplace evaliqa/evaliqa-claude-plugin
 ```
 
-Then, in the repository you want evaluated, add your credentials to
-`.claude/settings.local.json` (which git ignores by default):
+(On Claude Code before 2.1.275, run `/plugin marketplace add evaliqa/evaliqa-claude-plugin`
+then `/plugin install evaliqa`.)
 
-```json
-{
-  "env": {
-    "EVALIQA_API_KEY": "evx_your_key",
-    "EVALIQA_URL": "https://your-evaliqa-host"
-  }
-}
-```
+When you install it, Claude Code opens the plugin's config dialog and asks for
+two values:
 
-Restart Claude Code so the hooks load, then work as usual. Your sessions appear
-on the EvaliQA Tracing feed.
+- **EvaliQA URL** — the base URL of your EvaliQA host, e.g. `https://your-evaliqa-host`.
+- **EvaliQA API key** — your project key (`evx_…`). It is marked sensitive, so
+  Claude Code masks the input and stores it in your platform's secure credential
+  storage — never in `settings.json` and never in the repository.
+
+You can reopen the dialog any time with `/plugin configure evaliqa`. Leave either
+field empty to turn sending off. Restart Claude Code so the hooks load, then work
+as usual — your sessions appear on the EvaliQA Tracing feed.
 
 ### Traces as well as transcripts
 
@@ -83,9 +82,8 @@ and the exporter's api-key header to `.claude/settings.local.json`:
 
 The transcript includes your prompts, the agent's answers, and tool inputs and
 outputs (including file contents and shell output). It is sent only to the
-`EVALIQA_URL` you configure, over HTTPS, authenticated with your own API key.
-Set `EVALIQA_URL` to your own EvaliQA host. Nothing is sent when the variables
-are unset.
+EvaliQA URL you configure, over HTTPS, authenticated with your own API key. Set
+it to your own EvaliQA host. Nothing is sent when either config value is empty.
 
 ## License
 
